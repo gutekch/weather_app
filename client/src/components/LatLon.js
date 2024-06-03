@@ -32,12 +32,8 @@ export const LatLon = () => {
             </form>
             {error && <p>Error: {error}</p>}
             {coordinates.lat !== null && coordinates.lon !== null && (
-                <div>
-                    {/* <h3>Latitude: {coordinates.lat}</h3>
-                    <h3>Longitude: {coordinates.lon}</h3> */}
-                </div>
+                <Weather city={city} coordinates={coordinates}/>
             )}
-            <Weather city={city} coordinates={coordinates}/>
         </div>
     );
 };
