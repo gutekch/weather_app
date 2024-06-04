@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import getLatLon from './functions';
 import Weather from './Weather';
+import './LatLon.css';
 
 export const LatLon = () => {
-    const [city, setCity] = useState('');
-    const [coordinates, setCoordinates] = useState({ lat: null, lon: null });
+    const [city, setCity] = useState('Wroclaw');
+    const [coordinates, setCoordinates] = useState({ lat: 51.1079, lon: 17.0385 });
     const [error, setError] = useState(null);
 
     const fetchData = async (cityName) => {
@@ -16,7 +17,11 @@ export const LatLon = () => {
             setError(error.message);
             setCoordinates({ lat: null, lon: null });
         }
-    };  
+    };
+
+    useEffect(() => {
+        fetchData(city);
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -24,16 +29,14 @@ export const LatLon = () => {
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
+        <div className="latlon-container">
+            <Weather city={city} coordinates={coordinates}/>
+            <form onSubmit={handleSubmit} className="search-form">
                 <label>Search for city</label>
                 <input type="text" value={city} onChange={(e) => setCity(e.target.value)} />
                 <button type="submit">SEARCH</button>
             </form>
-            {error && <p>Error: {error}</p>}
-            {coordinates.lat !== null && coordinates.lon !== null && (
-                <Weather city={city} coordinates={coordinates}/>
-            )}
+            {error && <p className="error">Error: {error}</p>}
         </div>
     );
 };
